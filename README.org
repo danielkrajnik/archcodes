@@ -595,7 +595,7 @@ rsync -avzhP -e "ssh -p 12345" /home/user/archcodes/flask/ admin@archcodes.com:/
 [[https://flask.palletsprojects.com/en/latest/security/][docs]]
 **** Cross-Site Request Forgery
 You don't need to mitigate against CSRF if you don't keep user sessions.
-If you do user "Same-Site Cookies".
+If you do use "Same-Site Cookies".
 *** File Validation
 **** .obj files
 [[https://github.com/pywavefront/PyWavefront][PyWavefront]]
