@@ -159,7 +159,7 @@ Pretty print directories.
 ****** Example
 #+attr_org: :width 300px
 [[file:README-images/_20231019_161012screenshot.png]]
-***** bat
+***** batcat
 View file contents.
 ****** Example
 View contents of ~.bashrc~.
