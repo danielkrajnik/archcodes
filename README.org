@@ -16,6 +16,7 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 - Debian 12
 - first login with public ssh key shared with the hosting provider
 - first login as root
+- ownership of a DNS domain
 *** Update and upgrade packages
 ~sudo apt update && sudo apt upgrade -y~
 *** Add new sudo user
