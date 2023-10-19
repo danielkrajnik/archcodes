@@ -3,11 +3,175 @@
 * Overview
 * Deployment
 ** Hosting
-If you choose to host "on the cloud" ☁️ here are my recommmendations for privacy-oriented providers.
+If you choose to host "on the cloud ☁️" here are my recommmendations for privacy-oriented providers.
 [2023-10-19 Thu]
 | name         | Location       | Price                        |
 |--------------+----------------+------------------------------|
-| 1984.hosting | Iceland        | €77 / year (€27.49 1st year) |
+| 1984.hosting | Iceland        | 77 € / year (27.49 € for 1st year) |
 | njal.la      | Sweden (Malmo) | 15 € / month                 |
 | exoscale.com | Europe         | 11.93 € / month              |
-[[https://www.reddit.com/r/privacy/comments/oe3yef/comment/h448xls/?utm_source=share&utm_medium=web2x&context=3][Other recommendations.]]
+[[https://www.reddit.com/r/privacy/comments/oe3yef/comment/h448xls/?utm_source=share&utm_medium=web2x&context=3][Other recommendations]]
+** Base setup
+*** Preliminaries
+- Debian 12
+- first login with public ssh key shared with the hosting provider
+- first login as root
+*** Update and upgrade packages
+~sudo apt update && sudo apt upgrade -y~
+*** Add new sudo user
+~adduser admin --gecos ""~
+~usermod -aG sudo admin~
+*** Transfer ssh key
+~cp -r /root/.ssh /home/admin~
+~chown -R admin:admin /home/admin/.ssh~
+Logout of =root= and login as =admin=.
+*** Remove message on login
+~touch .hushlogin~
+*** Remove root password and lock
+~sudo passwd -d root~
+~sudo passwd -l root~
+*** Configure firewall
+On Debian ufw may be already installed and preconfigured.
+~sudo apt install ufw -y~
+~sudo ufw allow <CHOOSE-PORT-NUMBER-BETWEEN-1024-AND-65535>~
+For example: ~sudo ufw allow 38461~
+~sudo ufw enable~
+*** Configure ssh daemon
+~sudo vi /etc/ssh/sshd_config~
+#+begin_src conf
+Port <CHOOSE-PORT-BETWEEN-1024-AND-65535>
+# For example: Port 38461
+
+# Disable login as root 
+PermitRootLogin no
+# No need for Graphics on a server
+X11Forwarding no
+# Use cryptographic keys instead of passwords 
+PasswordAuthentication no
+# Only allow "admin" user to login via ssh 
+# If you named your user differently change it for that name
+AllowUsers admin
+#+end_src
+~sudo systemctl restart sshd~
+⚠️ [[*Deployments][Note down]] the Port number.
+⚠️ Before logging out make sure port number [[*Configure firewall][was allowed in ufw]] or you will be locked out.
+*** Miscellaneous fixes
+**** Disable passwordless sudo
+Check if this file exists
+~sudo cat /etc/sudoers.d/90-cloud-init-users~
+Remove it
+~sudo rm /etc/sudoers.d/90-cloud-init-users~
+**** Disable ssh logins via password
+Check if this file exists
+~sudo cat /etc/ssh/sshd_config.d/50-cloud-init.conf~
+Remove it
+~sudo rm /etc/ssh/sshd_config.d/50-cloud-init.conf~
+Restart ssh
+~sudo systemctl restart sshd~
+*** Fail2ban
+Your server will be constantly scanned for vulnerabilities by various (good and bad) parties. Fail2Ban blocks such attempts if they reach a predefined number of unsuccessful connections.
+~sudo apt install fail2ban -y~
+~sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local~
+~sudo vi /etc/fail2ban/jail.local~
+Sane defaults:
+#+begin_src conf
+[DEFAULT]
+bantime = 1000m
+findtime = 100m
+maxentry = 3
+# In Debian 12 it became necessary to specify systemd backend explicitely.
+backend = systemd
+#+end_src
+⚠ If you failed to connect more than 3 times before setting this up it may block you. [[*Unban your IP][Fix]]
+~sudo systemctl restart fail2ban.service~
+**** Unban your IP
+⚠ Advanced
+Use a proxy/VPN/Tor to change your IP, reconnect to the server and unban you IP.
+***** Tor
+Start tor service or connect the Tor Browser.
+The easiest way to setup Tor service on desktop is to download the [[https://www.torproject.org/download/][Tor Browser]] and start it. It bundles tor server and will make it available locally on port 9050.
+~ssh -o ProxyCommand='nc -x 127.0.0.1:9150 %h %p' <USER>@<SERVER-IP>~
+check your IP
+~curl ifconfig.me~
+[[*unban IP][unban]] your original IP
+*** Optional
+**** Copy .bashrc
+Recommended =.bashrc= included in this repo.
+~scp -P <SSH-PORT-NUMBER> <PATH-TO-THIS-REPO>/.bashrc <SERVER-IP>:~
+**** fzf
+Install fzf fuzzy finder to serach command history interactively (Ctrl+R).
+~sudo apt install git wget -y~
+~git clone --depth 1 https://github.com/junegunn/fzf.git .fzf~
+~./.fzf/install~
+**** Extras
+~sudo apt install fd-find exa bat ripgrep htop nethogs -y~
+***** fd-find
+Search files by name.
+****** Example
+Find all directories (~-td~) that have ~system-wg~ somewhere in their name. Search only in ~/sys/fs/cgroup~.
+~fd -td system-wg /sys/fs/cgroup~
+Sorry, I couldn't find a better example...
+***** ripgrep
+Search files by =contents= name.
+****** Example
+Search for ~alias~ in ~.bashrc~
+~rg alias .bashrc~
+***** exa
+Pretty print directories.
+****** Example
+#+attr_org: :width 300px
+[[file:README-images/_20231019_161012screenshot.png]]
+***** bat
+View file contents.
+****** Example
+View contents of ~.bashrc~.
+~b .bashrc~
+***** htop
+View running processes.
+****** Example
+~htop~
+***** nethogs
+View running network connections.
+****** Example
+~nethogs -l -a -C~
+~-l~     display command line
+~-C~     capture TCP and UDP
+~-a~     monitor all devices, even loopback/stopped ones
+*** Dns and hostname
+These may have been automatically set by your hosting provider.
+**** Your hostname
+~cat /etc/hostname~
+**** Server DNS
+~sudo vi /etc/hosts~:
+127.0.1.1 hostname.example.com hostname
+or:
+<STATIC-IP> hostname.example.com hostname
+**** Test
+~dnsdomainname~
+~dnsdomainname -f~
+~dnsdomainname --fqdn~
+*** Reboot
+~sudo reboot~
+** Maintenance
+*** Fail2ban
+**** list banned IPs
+~sudo fail2ban-client status sshd~
+~sudo zgrep 'Ban' /var/log/fail2ban.log* | b~
+**** unban IP
+~fail2ban-client set sshd unbanip IPADDRESSHERE~
+or unban all IPs
+~fail2ban-client unban --all~
+*** Check on unsolicited connections
+~journalctl -u sshd~
+~cat /var/log/fail2ban.log~
+*** Check previous logins
+~last~
+*** Check for update history
+~zgrep . /var/log/apt/history.log*~
+*** Check uptime
+~uptime~
+*** Check kernel release
+~uname --kernel-release~
+*** Full ditro upgrade
+Make sure to take snapshot/backup beforehand. It's not always guaranteed to work.
+~sudo apt-get full-upgrade~
