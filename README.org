@@ -22,8 +22,10 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 sudo apt update && sudo apt upgrade -y
 #+end_src
 *** Add new sudo user
-~adduser admin --gecos ""~
-~usermod -aG sudo admin~
+#+begin_src sh
+adduser admin --gecos ""
+usermod -aG sudo admin
+#+end_src
 *** Transfer ssh key
 #+begin_src sh
 cp -r /root/.ssh /home/admin
@@ -31,16 +33,22 @@ chown -R admin:admin /home/admin/.ssh
 #+end_src
 Logout of =root= and login as =admin=.
 *** Remove message on login
-~touch .hushlogin~
+#+begin_src sh
+touch .hushlogin
+#+end_src
 *** Remove root password and lock
-~sudo passwd -d root~
-~sudo passwd -l root~
+#+begin_src sh
+sudo passwd -d root
+sudo passwd -l root
+#+end_src
 *** Configure firewall
 On Debian ufw may be already installed and preconfigured.
-~sudo apt install ufw -y~
-~sudo ufw allow <CHOOSE-PORT-NUMBER-BETWEEN-1024-AND-65535>~
-For example: ~sudo ufw allow 38461~
-~sudo ufw enable~
+#+begin_src sh
+sudo apt install ufw -y
+sudo ufw allow <CHOOSE-PORT-NUMBER-BETWEEN-1024-AND-65535>
+# For example: sudo ufw allow 38461
+sudo ufw enable
+#+end_src
 *** Configure ssh daemon
 ~sudo vi /etc/ssh/sshd_config~
 #+begin_src conf
@@ -62,22 +70,28 @@ AllowUsers admin
 ⚠️ Before logging out make sure port number [[*Configure firewall][was allowed in ufw]] or you will be locked out.
 *** Miscellaneous fixes
 **** Disable passwordless sudo
-Check if this file exists
-~sudo cat /etc/sudoers.d/90-cloud-init-users~
-Remove it
-~sudo rm /etc/sudoers.d/90-cloud-init-users~
+#+begin_src sh
+# Check if this file exists
+sudo cat /etc/sudoers.d/90-cloud-init-users
+# Remove it
+sudo rm /etc/sudoers.d/90-cloud-init-users
+#+end_src
 **** Disable ssh logins via password
-Check if this file exists
-~sudo cat /etc/ssh/sshd_config.d/50-cloud-init.conf~
-Remove it
-~sudo rm /etc/ssh/sshd_config.d/50-cloud-init.conf~
-Restart ssh
-~sudo systemctl restart sshd~
-*** Fail2ban
+#+begin_src sh
+# Check if this file exists
+sudo cat /etc/ssh/sshd_config.d/50-cloud-init.conf
+# Remove it
+sudo rm /etc/ssh/sshd_config.d/50-cloud-init.conf
+# Restart ssh
+sudo systemctl restart sshd
+#+end_src
+*** Configure fail2ban
 Your server will be constantly scanned for vulnerabilities by various (good and bad) parties. Fail2Ban blocks such attempts if they reach a predefined number of unsuccessful connections.
-~sudo apt install fail2ban -y~
-~sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local~
-~sudo vi /etc/fail2ban/jail.local~
+#+begin_src sh
+sudo apt install fail2ban -y
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo vi /etc/fail2ban/jail.local
+#+end_src
 Sane defaults:
 #+begin_src conf
 [DEFAULT]
@@ -88,39 +102,53 @@ maxentry = 3
 backend = systemd
 #+end_src
 ⚠ If you failed to connect more than 3 times before setting this up it may block you. [[*Unban your IP][Fix]]
-~sudo systemctl restart fail2ban.service~
+#+begin_src sh
+sudo systemctl restart fail2ban.service
+#+end_src
 **** Unban your IP
 ⚠ Advanced
 Use a proxy/VPN/Tor to change your IP, reconnect to the server and unban you IP.
 ***** Tor
 Start tor service or connect the Tor Browser.
 The easiest way to setup Tor service on desktop is to download the [[https://www.torproject.org/download/][Tor Browser]] and start it. It bundles tor server and will make it available locally on port 9050.
-~ssh -o ProxyCommand='nc -x 127.0.0.1:9150 %h %p' <USER>@<SERVER-IP>~
-check your IP
-~curl ifconfig.me~
-[[*unban IP][unban]] your original IP
+#+begin_src sh
+ssh -o ProxyCommand='nc -x 127.0.0.1:9150 %h %p' <USER>@<SERVER-IP>
+# check your IP
+curl ifconfig.me
+#+end_src
+[[*unban IP][Unban]] your original IP: ~fail2ban-client set sshd unbanip <YOUR-ORIGNAL-IP>~
 *** Optional
 **** Copy .bashrc
 Recommended =.bashrc= included in this repo.
-~scp -P <SSH-PORT-NUMBER> <PATH-TO-THIS-REPO>/.bashrc <SERVER-IP>:~
+#+begin_src sh
+scp -P <SSH-PORT-NUMBER> <PATH-TO-THIS-REPO>/.bashrc <SERVER-IP>:
+#+end_src
 **** fzf
 Install fzf fuzzy finder to serach command history interactively (Ctrl+R).
-~sudo apt install git wget -y~
-~git clone --depth 1 https://github.com/junegunn/fzf.git .fzf~
-~./.fzf/install~
+#+begin_src sh
+sudo apt install git wget -y
+git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
+./.fzf/install
+#+end_src
 **** Extras
-~sudo apt install fd-find exa bat ripgrep htop nethogs -y~
+#+begin_src sh
+sudo apt install fd-find exa bat ripgrep htop nethogs -y
+#+end_src
+Below aliases (e.g. ~b~ instead of ~batcat~) were set in the above [[*Copy .bashrc][.bashrc file]].
 ***** fd-find
 Search files by name.
 ****** Example
 Find all directories (~-td~) that have ~system-wg~ somewhere in their name. Search only in ~/sys/fs/cgroup~.
-~fd -td system-wg /sys/fs/cgroup~
-Sorry, I couldn't find a better example...
+#+begin_src sh
+fd -td system-wg /sys/fs/cgroup
+#+end_src
 ***** ripgrep
 Search files by =contents= name.
 ****** Example
 Search for ~alias~ in ~.bashrc~
-~rg alias .bashrc~
+#+begin_src sh
+rg alias .bashrc
+#+end_src
 ***** exa
 Pretty print directories.
 ****** Example
@@ -130,53 +158,85 @@ Pretty print directories.
 View file contents.
 ****** Example
 View contents of ~.bashrc~.
-~b .bashrc~
+#+begin_src sh
+b .bashrc
+#+end_src
 ***** htop
 View running processes.
 ****** Example
-~htop~
+#+begin_src sh
+htop
+#+end_src
 ***** nethogs
 View running network connections.
 ****** Example
-~nethogs -l -a -C~
+#+begin_src sh
+nethogs -l -a -C
+#+end_src
 ~-l~     display command line
 ~-C~     capture TCP and UDP
 ~-a~     monitor all devices, even loopback/stopped ones
 *** Dns and hostname
 These may have been automatically set by your hosting provider.
 **** Your hostname
-~cat /etc/hostname~
+#+begin_src sh
+cat /etc/hostname
+#+end_src
 **** Server DNS
-~sudo vi /etc/hosts~:
+#+begin_src sh
+sudo vi /etc/host
+#+end_src
 127.0.1.1 hostname.example.com hostname
 or:
 <STATIC-IP> hostname.example.com hostname
 **** Test
-~dnsdomainname~
-~dnsdomainname -f~
-~dnsdomainname --fqdn~
+#+begin_src sh
+dnsdomainname
+dnsdomainname -f
+dnsdomainname --fqdn
+#+end_src
 *** Reboot
-~sudo reboot~
+#+begin_src sh
+sudo reboot
+#+end_src
 ** Maintenance
 *** Fail2ban
 **** list banned IPs
-~sudo fail2ban-client status sshd~
-~sudo zgrep 'Ban' /var/log/fail2ban.log* | b~
+#+begin_src sh
+sudo fail2ban-client status sshd
+sudo zgrep 'Ban' /var/log/fail2ban.log* | b
+#+end_src
 **** unban IP
-~fail2ban-client set sshd unbanip IPADDRESSHERE~
+#+begin_src sh
+fail2ban-client set sshd unbanip IPADDRESSHERE
+#+end_src
 or unban all IPs
-~fail2ban-client unban --all~
+#+begin_src sh
+fail2ban-client unban --all
+#+end_src
 *** Check on unsolicited connections
-~journalctl -u sshd~
-~cat /var/log/fail2ban.log~
+#+begin_src sh
+journalctl -u sshd
+cat /var/log/fail2ban.log
+#+end_src
 *** Check previous logins
-~last~
+#+begin_src sh
+last
+#+end_src
 *** Check for update history
-~zgrep . /var/log/apt/history.log*~
+#+begin_src sh
+zgrep . /var/log/apt/history.log*
+#+end_src
 *** Check uptime
-~uptime~
+#+begin_src sh
+uptime
+#+end_src
 *** Check kernel release
-~uname --kernel-release~
+#+begin_src sh
+uname --kernel-release
+#+end_src
 *** Full ditro upgrade
 Make sure to take snapshot/backup beforehand. It's not always guaranteed to work.
-~sudo apt-get full-upgrade~
+#+begin_src sh
+sudo apt-get full-upgrade
+#+end_src
