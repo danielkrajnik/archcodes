@@ -204,7 +204,7 @@ nethogs -l -a -C
 These may have been automatically set by your hosting provider.
 **** Your hostname
 #+begin_src sh
-cat /etc/hostname
+sudo vi /etc/hostname
 #+end_src
 **** Server DNS
 #+begin_src sh
