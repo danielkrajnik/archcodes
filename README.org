@@ -1,18 +1,19 @@
 #+title: Archcodes
 
 * Overview
-Source code ([[file:LICENSE][AGPL]]) for [[https://archcodes.com/][archcodes.com]] - fast parametric architecture generator focused on ease of use and design quality.
+Source code ([[file:LICENSE][AGPL]]) for [[https://archcodes.com/][archcodes.com]] - fast parametric architecture generator focused on ease of use, design quality and privacy.
 ** Backend
-*** Web servers
-- Nginx
-- Flask
-*** 3D processing
+*** Web
+- [[#nginx][Nginx]]
+- [[#gunicorn][Gunicorn]]
+- [[#flask][Flask]]
+*** Compute (3D processing)
 - Rhino
 - Blender
 - Houdini
 ** Frontend
-- [[https://gohugo.io/][Hugo]]
-- [[https://ox-hugo.scripter.co/][Ox-hugo]]
+- [[#hugo][Hugo]]
+- [[#ox-hugo][Ox-hugo]]
 - +Javascript+
 * Backend
 ** Hosting
@@ -259,8 +260,346 @@ Make sure to take snapshot/backup beforehand. It's not always guaranteed to work
 #+begin_src sh
 sudo apt-get full-upgrade
 #+end_src
+** Nginx
+#+begin_src sh
+sudo apt install nginx
+#+end_src
+*** Add SSL
+#+begin_src sh
+sudo apt install certbot python3-certbot-nginx
+sudo certbot --nginx --domain example.com --domain subdomain.example.com --email you@example.com --agree-tos --redirect --hsts --staple-ocsp
+#+end_src
+*** Add domain configuration
+Update =root= directive.
+#+begin_src sh
+sudo vi /etc/nginx/sites-available/<DOMAIN-NAME>
+#+end_src
+#+begin_src sh
+mkdir /var/www/<DOMAIN-NAME>/
+#+end_src
+*** Fail2ban
+**** Enable for nginx
+#+begin_src sh
+sudo vi /etc/fail2ban/jail.local
+#+end_src
+#+begin_src conf
+[nginx-http-auth]
+enabled  = true
+#+end_src
+#+begin_src sh
+sudo systemctl restart fail2ban.service
+#+end_src
+**** Check
+#+begin_src sh
+sudo fail2ban-client status
+sudo fail2ban-client status nginx-http-auth
+sudo iptables -S | grep f2b
+#+end_src
+*** Security and privacy
+**** Considerations
+- [[#load-balacing-to-separate-compute-nodes][Separate the webserver from compute nodes.]]
+- Don't save received models.
+- Don't log incoming connections.
+- =TODO= read-only root / immutability / regular server reinstalls.
+- =TODO= containarization.
+**** HTTP Headers
+- Separate for each =location= context. If set in =server= context and another header is added to a =location= they get erased.
+- Create a new file and include it to simplify configuration.
+#+begin_src conf
+location / {
+    include /etc/nginx/security-headers.conf;
+}
+#+end_src
+#+begin_src sh
+sudo vi /etc/nginx/security-headers.conf
+#+end_src
+***** Strict Transport Security
+Python-nginx-certbot plugin adds it automatically, but doesn't include subdomains.
+#+begin_src conf
+add_header Strict-Transport-Security "max-age=31449600; includeSubDomains" always;
+#+end_src
+"SSL stripping" is based on intercepting the first request to a website (before SSL encryption).
+***** Content-Security-Policy
+Protect against XSS (cross-site scripting). Restrict access to javascript files from other origins.
+#+begin_src conf
+add_header Content-Security-Policy "object-src 'none'; script-src 'self'; script-src-elem 'self'; font-src self; base-uri 'self'; require-trusted-types-for 'script'" always;
+#+end_src
+***** X-Frame-Options
+#+begin_src conf
+add_header X-Frame-Options "DENY" always;
+#+end_src
+***** X-Content-Type-Options
+#+begin_src conf
+add_header X-Content-Type-Options "nosniff" always;
+#+end_src
+***** Referrer-policy
+#+begin_src conf
+add_header Referrer-Policy "strict-origin" always;
+#+end_src
+***** X-XSS-Protection
+#+begin_src conf
+add_header X-Xss-Protection "1; mode=block" always;
+#+end_src
+***** Cross-origin resource sharing
+Allow others to use resources from your domain.
+No need to add this. Informational only.
+=add_header Access-Control-Allow-Origin "example.com"=
+***** Feature-Policy and Permissions-Policy
+#+begin_src conf
+add_header Feature-Policy "microphone 'none'; geolocation 'none'; camera 'none'" always;
+add_header Permissions-Policy "microphone=(); geolocation=(); camera=()" always;
+#+end_src
+***** Test
+https://securityheaders.com/
+***** Rate limiting
+Rate limits to 10 requests per second *per client*.
+Not quite sure yet how to control it "globally" and how much of it will be needed.
+I believe that if exceeded Nginx will send =429= code and the browser will inform the user automatically.
+#+begin_src conf
+http {
+    limit_req_zone $binary_remote_addr zone=limit_zone:10m rate=10r/s;
+    server {
+        location @proxy_to_app {
+            limit_req zone=limit_zone burst=20;
+            proxy_pass http://app_server;
+        }
+    }
+}
+#+end_src
+**** Virtual hosts
+[[https://docs.nginx.com/nginx/admin-guide/web-server/web-server/#setting-up-virtual-servers][Docs]]
+***** Basics
+- There can be multiple =server= contexts (aka virtual servers).
+- They are evaluated first by network interface they =listen= on, then =server_name= (aka domain name).
+- =server_name= can also be a wildcard or a regular expression.
+- =Host= header field in the client's http request is used to match =server_name=.
+- =default_server= parameter can be used to catch requests that don't match any server.
+**** Example
+#+begin_src conf
+server {
+    location / {
+        proxy_pass http://localhost:8080/;
+    }
+    # match all URIs ending with .gif, .jpg, or .png
+    location ~ \.(gif|jpg|png)$ {
+        root /data/images;
+    }
+}
+#+end_src
+**** Load balacing to separate compute nodes
+Treat web applications like they were already compromised. Protect the rest of the infrastructure. Separate applications into isolated machines (AND containers) and use nginx to load balance requests to them.
+***** Wireguard
+You can use VPN (e.g. wireguard) to connect web server with compute nodes.
+[[https://www.wireguard.com/][Wireguard is a fast and modern VPN.]]
+#+begin_src sh
+sudo apt install wireguard -y
+#+end_src
+****** Configuration file
+#+begin_src sh
+sudo vi /etc/wireguard/wg0.conf
+#+end_src
+#+begin_src conf
+[Interface]
+PrivateKey = <YourPrivateKey>
+Address = 10.0.0.1/24
+ListenPort = <Port>
+
+[Peer]
+PublicKey = <PeerPublicKey>
+AllowedIPs = 10.0.0.2/32
+Endpoint = <PeerEndpoint>:<PeerPort>
+#+end_src
+****** Keys
+#+begin_src sh
+wg genkey | tee /dev/tty | wg pubkey
+#+end_src
+****** Ufw
+#+begin_src sh
+sudo ufw allow <Port>
+#+end_src
+****** Start
+#+begin_src sh
+wg-quick up wg0
+#+end_src
+****** Systemd service
+#+begin_src sh
+sudo systemctl enable wg-quick@wg0
+#+end_src
+***** Configure Nginx
+#+begin_src conf
+upstream app_server {
+    server <WIREGUARD-PEER-IP> max_fails=3;
+}
+#+end_src
+****** Optional parameters (with default values)
+- fail_timeout: 10s
+- weight: 1
+- max_fails: 1
+- max_conns
+**** Hide server token
+#+begin_src sh
+sudo vi /etc/nginx/nginx.conf
+#+end_src
+#+begin_src conf
+http {
+    server_tokens off;
+}
+#+end_src
+**** Cache
+Change cache durations between different locations.
+=expires= adds =Expires= HTTP header and =-1= tells the clients not to cache it.
+#+begin_src conf
+location ~ /index.html {
+    expires -1;
+    add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+}
+#+end_src
+**** Timeout
+#+begin_src conf
+http {
+    keepalive_timeout  65;
+}
+#+end_src
+**** Serve high traffic
+[[https://docs.nginx.com/nginx/admin-guide/web-server/serving-static-content/#optimizing-the-backlog-queue][Docs - Optimizing the Backlog Queue]]
+***** Kernel
+#+begin_src sh
+sudo sysctl -w net.core.somaxconn=4096
+net.core.somaxconn = 4096
+#+end_src
+***** Nginx
+#+begin_src sh
+sudo vi /etc/nginx/sites-available/yourdomain.com
+#+end_src
+#+begin_src conf
+server {
+    listen 80 backlog=4096;
+    # ...
+}
+#+end_src
+** Gunicorn
+Gunicorn is simpler than uWSGI for small websites.
+⚠️ Gunicorn and Flask should run on a separate "Compute" server.
+*** Install
+Prefer system packages over =pip= (unless a specific version is needed).
+#+begin_src sh
+sudo apt install gunicorn
+#+end_src
+[[https://docs.gunicorn.org/en/stable/deploy.html#nginx-configuration][docs]]
+*** Configure Nginx
+[[https://docs.gunicorn.org/en/stable/deploy.html][docs]]
+#+begin_src sh
+sudo vi /etc/nginx/sites-available/<DOMAIN-NAME>
+#+end_src
+#+begin_src conf
+# https://docs.gunicorn.org/en/stable/deploy.html#nginx-configuration
+upstream app_server {
+    # fail_timeout=0 means we always retry an upstream even if it failed
+    # to return a good HTTP response
+
+    # for UNIX domain socket setups
+    server <WIREGUARD-PEER-IP>:<GUNICORN-PORT> fail_timeout=0;
+    # For example: server 10.0.0.2:8000 fail_timeout=0;
+}
+
+location @proxy_to_app {
+    expires -1;
+    add_header Cache-Control 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0';
+
+    include /etc/nginx/proxy_params;
+    include /etc/nginx/security-headers.conf;
+
+    # limit max uploaded file size
+    client_max_body_size 10M;
+
+    # we don't want nginx trying to do something clever with
+    # redirects, we set the Host: header in /etc/nginx/proxy_params already.
+    proxy_redirect off;
+    proxy_pass http://app_server;
+}
+
+location / {
+           ...
+           # nginx will try first static files and if it fails it will pass request to proxy
+           # I thought that you can keep the =404 at the end, but then @proxy_to_app stops working
+            try_files $uri $uri/ @proxy_to_app;
+        }
+#+end_src
+*** Systemd service unit
+[[https://docs.gunicorn.org/en/stable/deploy.html#systemd][docs]]
+#+begin_src sh
+sudo vi /etc/systemd/system/gunicorn.service
+#+end_src
+#+begin_src conf
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+# see http://0pointer.net/blog/dynamic-users-with-systemd.html
+DynamicUser=yes
+RuntimeDirectory=gunicorn
+WorkingDirectory=/var/www/flask
+ExecStart=/usr/bin/gunicorn app:app --workers 2
+ExecReload=/bin/kill -s HUP $MAINPID
+KillMode=mixed
+TimeoutStopSec=5
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+#+end_src
+*** Systemd TCP socket unit
+#+begin_src sh
+sudo vi /etc/systemd/system/gunicorn.socket
+#+end_src
+#+begin_src conf
+[Unit]
+Description=gunicorn socket
+[Socket]
+ListenStream=<WIREGUARD-PEER-IP>:<GUNICORN-PORT>
+# For example: ListenStream=10.0.0.2:8000
+# Accept=yes
+[Install]
+WantedBy=sockets.target
+#+end_src
+#+begin_src sh
+sudo systemctl enable --now gunicorn.socket
+#+end_src
+*** Ufw
+#+begin_src sh
+sudo ufw allow from 10.0.0.1 to 10.0.0.2 port 8000
+#+end_src
+** Flask
+*** Deploy
+**** Permissions
+Add executable permissions to app.py.
+#+begin_src sh
+chmod +x <FLASK-ROOT>/app.py
+#+end_src
+**** Run
+#+begin_src sh
+rsync -avzhP -e "ssh -p <COMPUTE-NODE-SSH-PORT>" <PATH-TO-FLASK-ROOT> <USERNAME>@<SERVERNAME>:/srv/flask/
+#+end_src
+***** Example
+#+begin_src sh
+rsync -avzhP -e "ssh -p 12345" /home/user/archcodes/flask/ admin@archcodes.com:/srv/flask/
+#+end_src
+*** Security
+[[https://flask.palletsprojects.com/en/latest/security/][docs]]
+**** Cross-Site Request Forgery
+You don't need to mitigate against CSRF if you don't keep user sessions.
+If you do user "Same-Site Cookies".
+*** File Validation
+**** .obj files
+[[https://github.com/pywavefront/PyWavefront][PyWavefront]]
+*** Filename sanitization
+Removing special characters, spaces and directory traversal attempts (e.g. "../").
 * Frontend
-** [[https://gohugo.io/][Hugo]]
+** Hugo
+[[https://gohugo.io/][Fast static site generator.]]
 *** Deploy
 **** Remove previous build
 Hugo doesn't automatically clean previous build.
@@ -280,7 +619,7 @@ Change =<STATIC-FILES-LOCATION>= permissions from =root= to your user.
 #+begin_src sh
 rm -rf <PATH-TO-HUGO-BUILD> \
     && hugo -s <PATH-TO-HUGO-ROOT> \
-    && rsync -avzhP -e "ssh -p <SSH-PORT>" <PATH-TO-HUGO-BUILD> <SSH-USER>@<SSH-SERVER>:<STATIC-FILES-LOCATION>
+    && rsync -avzhP -e "ssh -p <SSH-PORT>" <PATH-TO-HUGO-BUILD> <USERNAME>@<SERVERNAME>:<STATIC-FILES-LOCATION>
 #+end_src
 ****** Example
 #+begin_src sh
@@ -291,7 +630,8 @@ rm -rf /home/user/archcodes/public \
 *** Develop
 ~cd <PATH-TO-HUGO-ROOT>~
 ~hugo server~
-*** [[https://ox-hugo.scripter.co/][Ox-hugo]]
+*** Ox-hugo
+[[https://ox-hugo.scripter.co/][Org-mode to hugo markdown converter.]]
 **** Update .md files on save
 ~org-hugo-auto-export-mode~
 Updates only subtrees that changed.
