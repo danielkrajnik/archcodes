@@ -70,8 +70,8 @@ AllowUsers admin
 #+begin_src sh
 sudo systemctl restart sshd
 #+end_src
-⚠️ [[#Deployments][Note down]] the Port number.
-⚠️ Before logging out make sure port number [[*Configure firewall][was allowed in ufw]] or you will be locked out.
+⚠️ Note down the Port number.
+⚠️ Before logging out make sure port number [[#configure-firewall][was allowed in ufw]] or you will be locked out.
 *** Miscellaneous fixes
 **** Disable passwordless sudo
 #+begin_src sh
