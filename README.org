@@ -11,6 +11,7 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 | njal.la      | Sweden (Malmo) | 15 € / month                 |
 | exoscale.com | Europe         | 11.93 € / month              |
 [[https://www.reddit.com/r/privacy/comments/oe3yef/comment/h448xls/?utm_source=share&utm_medium=web2x&context=3][Other recommendations]]
+[[https://survey.stackoverflow.co/2023/#section-admired-and-desired-cloud-platforms][Stack Overflow 2023 Survey]]
 ** Base setup
 *** Preliminaries
 - Debian 12
