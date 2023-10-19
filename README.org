@@ -7,7 +7,7 @@ Source code ([[file:LICENSE][AGPL]]) for [[https://archcodes.com/][archcodes.com
 - [[#nginx][Nginx]]
 - [[#gunicorn][Gunicorn]]
 - [[#flask][Flask]]
-*** Compute (3D processing)
+*** Compute (3D processing) - *WIP!*
 - Rhino
 - Blender
 - Houdini
