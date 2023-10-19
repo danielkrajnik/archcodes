@@ -18,13 +18,17 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 - first login as root
 - ownership of a DNS domain
 *** Update and upgrade packages
-~sudo apt update && sudo apt upgrade -y~
+#+begin_src sh
+sudo apt update && sudo apt upgrade -y
+#+end_src
 *** Add new sudo user
 ~adduser admin --gecos ""~
 ~usermod -aG sudo admin~
 *** Transfer ssh key
-~cp -r /root/.ssh /home/admin~
-~chown -R admin:admin /home/admin/.ssh~
+#+begin_src sh
+cp -r /root/.ssh /home/admin
+chown -R admin:admin /home/admin/.ssh
+#+end_src
 Logout of =root= and login as =admin=.
 *** Remove message on login
 ~touch .hushlogin~
