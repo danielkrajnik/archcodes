@@ -18,16 +18,16 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 - first login as root
 - ownership of a DNS domain
 *** Update and upgrade packages
-#+begin_src sh
+#+begin_src bash
 sudo apt update && sudo apt upgrade -y
 #+end_src
 *** Add new sudo user
-#+begin_src sh
+#+begin_src bash
 adduser admin --gecos ""
 usermod -aG sudo admin
 #+end_src
 *** Transfer ssh key
-#+begin_src sh
+#+begin_src bash
 cp -r /root/.ssh /home/admin
 chown -R admin:admin /home/admin/.ssh
 #+end_src
