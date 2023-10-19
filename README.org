@@ -1,6 +1,19 @@
 #+title: Archcodes
 
 * Overview
+Source code (AGPL) for archcodes.com - fast parametric architecture generator focused on ease of use and design quality.
+** Backend
+*** Web servers
+- Nginx
+- Flask
+*** 3D processing
+- Rhino
+- Blender
+- Houdini
+** Frontend
+- [[https://gohugo.io/][Hugo]]
+- [[https://ox-hugo.scripter.co/][Ox-hugo]]
+- +Javascript+
 * Backend
 ** Hosting
 If you choose to host "on the cloud ☁️" here are my recommmendations for privacy-oriented providers.
