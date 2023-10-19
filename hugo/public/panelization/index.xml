@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Panelizations on ArchCodes</title>
+    <link>https://archcodes.com/panelization/</link>
+    <description>Recent content in Panelizations on ArchCodes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://archcodes.com/panelization/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Quad</title>
+      <link>https://archcodes.com/panelization/panelization-quads/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/panelization/panelization-quads/</guid>
+      <description>Quads go BRRR&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Triangular</title>
+      <link>https://archcodes.com/panelization/panelization-triangles/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/panelization/panelization-triangles/</guid>
+      <description>Triangles go brrr&amp;hellip;</description>
+    </item>
+    
+  </channel>
+</rss>

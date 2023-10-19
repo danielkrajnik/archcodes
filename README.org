@@ -1,7 +1,7 @@
 #+title: Archcodes
 
 * Overview
-* Deployment
+* Backend
 ** Hosting
 If you choose to host "on the cloud ☁️" here are my recommmendations for privacy-oriented providers.
 [2023-10-19 Thu]
@@ -246,3 +246,41 @@ Make sure to take snapshot/backup beforehand. It's not always guaranteed to work
 #+begin_src sh
 sudo apt-get full-upgrade
 #+end_src
+* Frontend
+** [[https://gohugo.io/][Hugo]]
+*** Deploy
+**** Remove previous build
+Hugo doesn't automatically clean previous build.
+#+begin_src sh
+rm -rf /home/user1/archidecks.com/public
+#+end_src
+**** Build website
+#+begin_src sh
+hugo -s /home/user1/archidecks.com
+#+end_src
+**** Pipeline
+***** Permissions
+Change =<STATIC-FILES-LOCATION>= permissions from =root= to your user.
+****** Example
+~chown admin: /var/www/archcodes.com~
+***** Run
+#+begin_src sh
+rm -rf <PATH-TO-HUGO-BUILD> \
+    && hugo -s <PATH-TO-HUGO-ROOT> \
+    && rsync -avzhP -e "ssh -p <SSH-PORT>" <PATH-TO-HUGO-BUILD> <SSH-USER>@<SSH-SERVER>:<STATIC-FILES-LOCATION>
+#+end_src
+****** Example
+#+begin_src sh
+rm -rf /home/user/archcodes/public \
+    && hugo -s /home/user/archcodes
+    && rsync -avzhP -e "ssh -p 12345" /home/user/archcodes/public/ admin@archcodes.com:/var/www/archcodes.com/
+#+end_src
+*** Develop
+~cd <PATH-TO-HUGO-ROOT>~
+~hugo server~
+*** [[https://ox-hugo.scripter.co/][Ox-hugo]]
+**** Update .md files on save
+~org-hugo-auto-export-mode~
+Updates only subtrees that changed.
+**** Export all subutrees
+~org-hugo-export-to-md~

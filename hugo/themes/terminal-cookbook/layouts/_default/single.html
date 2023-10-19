@@ -1,0 +1,151 @@
+{{ define "main" }}
+<section>
+  <div class="terminal-card">
+    <header>{{ .Title }} {{ .Params.Time }}</header>
+    <div class="image-grid">
+      <div id="flex-form-wrapper">
+        <div>
+          <img
+            src="{{ .Params.featured_image }}"
+            id="featured-image"
+            height="256px"
+            alt="{{ . }}"
+          />
+        </div>
+        <div id="file-upload">
+          <div id="text-in-upload-box">
+            <p>
+              Upload your model here.
+              <br />
+              <b>Only .obj files are accepted at the moment.</b>
+              <br />
+            </p>
+            <p>Max size 10MB</p>
+          </div>
+          <form
+            action="/codes/{{ .Title | urlize }}"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div id="file-input-test">
+              <input type="file" name="file" accept=".obj" />
+            </div>
+            <button type="submit">Upload</button>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <center>
+        {{ .Summary }} {{ range .Params.Tags }}
+        <a class="tag" href="/tags/{{ . }}">{{ . }}</a>
+        {{ end }}
+      </center>
+      <hr />
+      <div class="content-wrapper">{{ .Content }}</div>
+    </div>
+  </div>
+  <style>
+    .content-wrapper {
+      margin: 2rem;
+    }
+    .terminal-card img {
+      width: 600px;
+    }
+
+    /* Cancel the hover effect from the list.html partial
+    Sorry, I know this is getting messy. */
+    .terminal-card:hover {
+      /* remove the border's colour */
+      border: 1px solid #ffffff;
+      /* emulate the border */
+      box-shadow: 0 0 0 0px #ffffff;
+    }
+    .terminal-card center {
+      margin-top: 2rem;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .terminal-card {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      max-width: 100%;
+    }
+
+    div.terminal-nav {
+      margin-bottom: 1rem;
+    }
+
+    #flex-form-wrapper {
+      display: flex;
+      justify-content: space-evenly;
+      margin: 2rem;
+    }
+
+    #featured-image {
+      border-radius: 0.25rem;
+      width: 100%;
+      height: 100%;
+    }
+
+    #file-upload {
+      width: 50%;
+      margin-left: 2rem;
+    }
+
+    #text-in-upload-box {
+      position: absolute;
+      margin-top: 2rem;
+      margin-left: 2rem;
+      margin-right: 5rem;
+      text-align: left;
+      z-index: -1;
+    }
+
+    form {
+      border: 1px dashed #fff;
+      border-radius: 0.25rem;
+      height: 70%;
+    }
+
+    form input {
+      width: 100%;
+      height: 100%;
+      outline: none;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    #file-input-test {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+
+    #file-input-test:hover {
+      box-shadow: 0px 0px 5px 0px var(--primary-color);
+    }
+
+    form button {
+      color: var(--invert-font-color);
+      background: var(--primary-color);
+      border-width: 0;
+      width: 100%;
+      margin-top: 1rem;
+      height: 3rem;
+      transition: all 0.05s ease;
+      font-weight: 700;
+      font-size: larger;
+      border-radius: 0.25rem;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      box-shadow: 0px 0px 5px 0px var(--primary-color);
+    }
+  </style>
+</section>
+
+<br />
+{{ end }}

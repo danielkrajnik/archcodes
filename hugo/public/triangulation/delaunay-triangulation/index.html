@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html><head>
+  <meta charset="utf-8" />
+  <title>
+    ArchCodes  | Delaunay Triangulation
+  </title>
+  <meta name="author" content="" />
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/manifest.webmanifest" />
+  <link rel="stylesheet" href="/css/normalize-8.0.1.css" />
+  <link rel="stylesheet" href="/css/terminal-0.7.2.min.css" />
+
+  <style>
+    .components-grid {
+      display: grid;
+      grid-column-gap: 1em;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(calc(var(--page-width) / 3), 1fr)
+      );
+      grid-template-rows: auto;
+      margin: 1rem;
+    }
+
+    .image-grid {
+      height: 100%;
+    }
+
+    div.terminal-nav {
+      margin-top: 1rem;
+    }
+
+    .image-grid img {
+      height: auto;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .terminal-card {
+      max-width: 95%;
+      display: block;
+      border-radius: 0.25rem;
+    }
+
+    .terminal-card header {
+      font-size: 14px;
+      line-height: 0.75em;
+      border-radius: 0.1rem;
+    }
+  </style>
+
+  <style>
+    :root {
+      --global-font-size: 15px;
+      --global-line-height: 1.2em;
+      --global-space: 2px;
+      --font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace,
+        serif;
+      --mono-font-stack: Menlo, Monaco, Lucida Console, Liberation Mono,
+        DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace,
+        serif;
+      --background-color: #10151a;
+      --page-width: 60em;
+      --font-color: #e8e9ed;
+      --invert-font-color: #222225;
+      --secondary-color: #ffffff;
+      --tertiary-color: #4ed4cb;
+      --primary-color: #62c4ff;
+      --error-color: #ff3c74;
+      --progress-bar-background: #3f3f44;
+      --progress-bar-fill: #62c4ff;
+      --code-bg-color: #3f3f44;
+      --input-style: solid;
+      --display-h1-decoration: none;
+    }
+  </style>
+  <style>
+    .terminal-card center {
+      margin: 1rem;
+      font-size: 12px;
+      text-align: justify;
+    }
+    hr {
+      margin-top: 2rem;
+    }
+     
+    a:hover {
+      color: var(--primary-color);
+    }
+     
+    .terminal-card:hover {
+       
+       
+      box-shadow: 0px 0px 5px 0px var(--primary-color);  
+    }
+  </style>
+</head>
+<body><div class="terminal-nav">
+  <div class="terminal-logo">
+    <div class="logo terminal-prompt">
+      <a href="/" class="no-style">ArchCodes</a>
+    </div>
+  </div>
+</div>
+<div id="content">
+<section>
+  <div class="terminal-card">
+    <header>Delaunay Triangulation </header>
+    <div class="image-grid">
+      <div id="flex-form-wrapper">
+        <div>
+          <img
+            src="/featured-images/delaunay-triangulation.png"
+            id="featured-image"
+            height="256px"
+            alt="Page(/triangulation/delaunay-triangulation.md)"
+          />
+        </div>
+        <div id="file-upload">
+          <div id="text-in-upload-box">
+            <p>
+              Upload your model here.
+              <br />
+              <b>Only .obj files are accepted at the moment.</b>
+              <br />
+            </p>
+            <p>Max size 10MB</p>
+          </div>
+          <form
+            action="/codes/delaunay-triangulation"
+            method="POST"
+            enctype="multipart/form-data"
+          >
+            <div id="file-input-test">
+              <input type="file" name="file" accept=".obj" />
+            </div>
+            <button type="submit">Upload</button>
+          </form>
+        </div>
+      </div>
+      <hr />
+      <center>
+        Half-baked Voronoi 
+      </center>
+      <hr />
+      <div class="content-wrapper"><h2 id="script">Script</h2>
+<p>Sample <strong>list</strong> <em>list</em> <code>list</code> <code>list</code></p>
+<ul>
+<li>erg seg</li>
+<li>erigbiuer</li>
+</ul>
+<h3 id="test">test</h3>
+<h4 id="test2">test2</h4>
+<p>soyregb
+test
+ub</p>
+<h2 id="usage">Usage</h2>
+<h2 id="sample-projects">Sample projects</h2>
+<figure><a href="https://www.designboom.com/architecture/deca-architecture-voronoi-hourglass-corral-house-greece-12-08-2020/"><img src="/ox-hugo/_20230930_134101screenshot.png"
+         alt="Figure 1: (Barandy 2020)"/></a><figcaption>
+            <p><span class="figure-number">Figure 1: </span>(Barandy 2020)</p>
+        </figcaption>
+</figure>
+
+<figure><a href="https://www.designboom.com/architecture/deca-architecture-voronoi-hourglass-corral-house-greece-12-08-2020/"><img src="/ox-hugo/_20231001_163731screenshot.png"
+         alt="Figure 2: (Barandy 2020)"/></a><figcaption>
+            <p><span class="figure-number">Figure 2: </span>(Barandy 2020)</p>
+        </figcaption>
+</figure>
+
+</div>
+    </div>
+  </div>
+  <style>
+    .content-wrapper {
+      margin: 2rem;
+    }
+    .terminal-card img {
+      width: 600px;
+    }
+
+     
+    .terminal-card:hover {
+       
+      border: 1px solid #ffffff;
+       
+      box-shadow: 0 0 0 0px #ffffff;
+    }
+    .terminal-card center {
+      margin-top: 2rem;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .terminal-card {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      max-width: 100%;
+    }
+
+    div.terminal-nav {
+      margin-bottom: 1rem;
+    }
+
+    #flex-form-wrapper {
+      display: flex;
+      justify-content: space-evenly;
+      margin: 2rem;
+    }
+
+    #featured-image {
+      border-radius: 0.25rem;
+      width: 100%;
+      height: 100%;
+    }
+
+    #file-upload {
+      width: 50%;
+      margin-left: 2rem;
+    }
+
+    #text-in-upload-box {
+      position: absolute;
+      margin-top: 2rem;
+      margin-left: 2rem;
+      margin-right: 5rem;
+      text-align: left;
+      z-index: -1;
+    }
+
+    form {
+      border: 1px dashed #fff;
+      border-radius: 0.25rem;
+      height: 70%;
+    }
+
+    form input {
+      width: 100%;
+      height: 100%;
+      outline: none;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    #file-input-test {
+      width: 100%;
+      height: 100%;
+      outline: none;
+    }
+
+    #file-input-test:hover {
+      box-shadow: 0px 0px 5px 0px var(--primary-color);
+    }
+
+    form button {
+      color: var(--invert-font-color);
+      background: var(--primary-color);
+      border-width: 0;
+      width: 100%;
+      margin-top: 1rem;
+      height: 3rem;
+      transition: all 0.05s ease;
+      font-weight: 700;
+      font-size: larger;
+      border-radius: 0.25rem;
+      letter-spacing: -0.5px;
+      cursor: pointer;
+    }
+
+    form button:hover {
+      box-shadow: 0px 0px 5px 0px var(--primary-color);
+    }
+  </style>
+</section>
+
+<br />
+
+        </div><section>
+  <footer>
+      
+        © 2023 Powered by <a href="http://gohugo.io" target="_blank" rel="noopener noreferrer">Hugo</a>
+      
+        :: <a href="https://github.com/rullmann/hugo-theme-terminal-cookbook" target="_blank" rel="noopener noreferrer">terminal-cookbook</a> theme
+  </footer>
+</section></body>
+</html>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ArchCodes</title>
+    <link>https://archcodes.com/</link>
+    <description>Recent content on ArchCodes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 30 Sep 2023 00:00:00 +0000</lastBuildDate><atom:link href="https://archcodes.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Advection</title>
+      <link>https://archcodes.com/graphs/advection/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/graphs/advection/</guid>
+      <description>Description</description>
+    </item>
+    
+    <item>
+      <title>Cellular Automata</title>
+      <link>https://archcodes.com/organic/cellular-automata/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/organic/cellular-automata/</guid>
+      <description>The one and only.</description>
+    </item>
+    
+    <item>
+      <title>Delaunay Triangulation</title>
+      <link>https://archcodes.com/triangulation/delaunay-triangulation/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/triangulation/delaunay-triangulation/</guid>
+      <description>Half-baked Voronoi</description>
+    </item>
+    
+    <item>
+      <title>Electronic Circuits</title>
+      <link>https://archcodes.com/graphs/electronic-circuits/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/graphs/electronic-circuits/</guid>
+      <description>This may shock you.</description>
+    </item>
+    
+    <item>
+      <title>Greeble</title>
+      <link>https://archcodes.com/vfx/greeble/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/vfx/greeble/</guid>
+      <description>Classic kitbashing, sci-fi effect.</description>
+    </item>
+    
+    <item>
+      <title>Gyroid</title>
+      <link>https://archcodes.com/volumetric/gyroid/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/volumetric/gyroid/</guid>
+      <description>Fancy 3D maze.</description>
+    </item>
+    
+    <item>
+      <title>Perlin Noise</title>
+      <link>https://archcodes.com/organic/perlin-noise/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/organic/perlin-noise/</guid>
+      <description>The one that started it all.</description>
+    </item>
+    
+    <item>
+      <title>Quad</title>
+      <link>https://archcodes.com/panelization/panelization-quads/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/panelization/panelization-quads/</guid>
+      <description>Quads go BRRR&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Triangular</title>
+      <link>https://archcodes.com/panelization/panelization-triangles/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/panelization/panelization-triangles/</guid>
+      <description>Triangles go brrr&amp;hellip;</description>
+    </item>
+    
+    <item>
+      <title>Voronoi</title>
+      <link>https://archcodes.com/codes/voronoi/</link>
+      <pubDate>Sat, 30 Sep 2023 00:00:00 +0000</pubDate>
+      
+      <guid>https://archcodes.com/codes/voronoi/</guid>
+      <description>Overdone Delaunay.</description>
+    </item>
+    
+  </channel>
+</rss>

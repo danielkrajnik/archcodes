@@ -1,0 +1,6 @@
+baseURL = 'https://archcodes.com/'
+languageCode = 'en-us'
+title = 'ArchCodes'
+theme = 'terminal-cookbook'
+[markup.goldmark.renderer]
+  unsafe = true

@@ -1,0 +1,11 @@
+{{ define "main" }}
+<h3 class="title">{{ humanize .Page.Title }}</h3>
+
+<section>
+  <div class="components-grid">
+    {{ range $index, $page := .Pages.ByLinkTitle }} {{ partial
+    "recipe_summary.html" $page }} {{ end }}
+  </div>
+</section>
+
+{{ end }}

@@ -1,0 +1,15 @@
+<section>
+  <a href="{{ .Permalink }}" aria-label="{{ .Title }}">
+    <div class="terminal-card">
+      <header>{{ .Title }}</header>
+      <div class="image-grid">
+        {{ with .Params.featured_image }}
+        <img src="{{ . }}" height="256px" alt="{{ . }}" />
+        <hr />
+        {{ end }}
+        <center>{{ .Summary }}</center>
+      </div>
+    </div>
+  </a>
+  <br />
+</section>

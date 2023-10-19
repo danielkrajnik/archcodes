@@ -1,0 +1,16 @@
+{{ define "main" }}
+<section>
+  <p style="margin-left: 1rem">Instant parametric architecture</p>
+  {{ range .Site.Taxonomies.tags }}
+  <a class="tag" href="{{ .Page.Permalink }}">{{ .Page.Title }}</a> | {{ end }}
+</section>
+
+<hr />
+
+<section>
+  <div class="components-grid">
+    {{ range $index, $page := .Site.RegularPages.ByLinkTitle }} {{ partial
+    "recipe_summary.html" $page }} {{ end }}
+  </div>
+</section>
+{{ end }}

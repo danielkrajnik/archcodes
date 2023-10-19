@@ -1,0 +1,248 @@
+#+title: All Posts
+#+bibliography: all-posts.bib
+#+hugo_base_dir: ../
+#+hugo_section: ./
+
+#+author: Daniel Krajnik
+
+* Greeble
+:PROPERTIES:
+:EXPORT_FILE_NAME: greeble
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: vfx
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/greeble.png" :summary Classic kitbashing, sci-fi effect.
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+** Usage
+** Sample projects
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Gyroid
+:PROPERTIES:
+:EXPORT_FILE_NAME: gyroid
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: volumetric
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/gyroid.png" :summary "Fancy 3D maze."
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+** Usage
+** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Perlin Noise
+:PROPERTIES:
+:EXPORT_FILE_NAME: perlin-noise
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: organic
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/perlin-noise.png" :summary "The one that started it all."
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+** Usage
+** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Cellular Automata
+:PROPERTIES:
+:EXPORT_FILE_NAME: cellular-automata
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: organic
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/cellular-automata.png" :summary "The one and only."
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+** Usage
+** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Advection
+:PROPERTIES:
+:EXPORT_FILE_NAME: advection
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: graphs
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/advection.png" :summary "Description"
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+*** test
+**** test2
+soyregb
+test
+** Usage
+** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Electronic Circuits
+:PROPERTIES:
+:EXPORT_FILE_NAME: electronic-circuits
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: graphs
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/electronic-circuits.png" :summary "This may shock you."
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+test
+ub
+** Usage
+** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Panelization
+** Triangular
+:PROPERTIES:
+:EXPORT_FILE_NAME: panelization-triangles
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: panelization
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/panelization-triangular.png" :summary "Triangles go brrr..."
+:END:
+*** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+**** test
+***** test2
+soyregb
+*** Usage
+*** Sample projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+
+** Quad
+:PROPERTIES:
+:EXPORT_FILE_NAME: panelization-quads
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: panelization
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/panelization-quads.png" :summary "Quads go BRRR..."
+:END:
+*** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+**** test
+***** test2
+soyregb
+test
+*** Usage
+*** Sample projects
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
+* Delaunay Triangulation
+:PROPERTIES:
+:EXPORT_FILE_NAME: delaunay-triangulation
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: triangulation
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/delaunay-triangulation.png" :summary "Half-baked Voronoi"
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+ub
+** Usage
+** Sample projects
+#+CAPTION:[cite:@barandy2020]
+#+attr_org: :width 600px
+[[https://www.designboom.com/architecture/deca-architecture-voronoi-hourglass-corral-house-greece-12-08-2020/][file:all-posts-images/_20230930_134101screenshot.png]]
+
+#+CAPTION:[cite:@barandy2020]
+#+attr_org: :width 600px
+[[https://www.designboom.com/architecture/deca-architecture-voronoi-hourglass-corral-house-greece-12-08-2020/][file:all-posts-images/_20231001_163731screenshot.png]]
+
+* Voronoi
+:PROPERTIES:
+:EXPORT_FILE_NAME: voronoi
+:EXPORT_DATE: 2023-09-30
+:EXPORT_HUGO_SECTION: codes
+:EXPORT_HUGO_MENU: :menu "main"
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :featured_image "/featured-images/voronoi.png" :summary "Overdone Delaunay."
+:END:
+** Script
+ Sample *list* /list/ =list= ~list~
+ - erg seg
+ - erigbiuer
+*** test
+**** test2
+soyregb
+test
+ub
+** Built Projects
+#+CAPTION: Weight space
+#+ATTR_HTML: :alt neural network :title Neural network representation :align right
+#+ATTR_HTML: :width 50% :height 50%
+https://i.stack.imgur.com/nzHSl.jpg
+#+attr_org: :width 600px
+[[file:all-posts-images/_20230930_134101screenshot.png]]
+[cite:@barandy2020]
