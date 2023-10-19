@@ -18,16 +18,16 @@ If you choose to host "on the cloud ☁️" here are my recommmendations for pri
 - first login as root
 - ownership of a DNS domain
 *** Update and upgrade packages
-#+begin_src bash
+#+begin_src sh
 sudo apt update && sudo apt upgrade -y
 #+end_src
 *** Add new sudo user
-#+begin_src bash
+#+begin_src sh
 adduser admin --gecos ""
 usermod -aG sudo admin
 #+end_src
 *** Transfer ssh key
-#+begin_src bash
+#+begin_src sh
 cp -r /root/.ssh /home/admin
 chown -R admin:admin /home/admin/.ssh
 #+end_src
@@ -50,7 +50,9 @@ sudo ufw allow <CHOOSE-PORT-NUMBER-BETWEEN-1024-AND-65535>
 sudo ufw enable
 #+end_src
 *** Configure ssh daemon
-~sudo vi /etc/ssh/sshd_config~
+#+begin_src sh
+sudo vi /etc/ssh/sshd_config
+#+end_src
 #+begin_src conf
 Port <CHOOSE-PORT-BETWEEN-1024-AND-65535>
 # For example: Port 38461
@@ -65,7 +67,9 @@ PasswordAuthentication no
 # If you named your user differently change it for that name
 AllowUsers admin
 #+end_src
-~sudo systemctl restart sshd~
+#+begin_src sh
+sudo systemctl restart sshd
+#+end_src
 ⚠️ [[*Deployments][Note down]] the Port number.
 ⚠️ Before logging out make sure port number [[*Configure firewall][was allowed in ufw]] or you will be locked out.
 *** Miscellaneous fixes
