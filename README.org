@@ -139,7 +139,7 @@ git clone --depth 1 https://github.com/junegunn/fzf.git .fzf
 #+begin_src sh
 sudo apt install fd-find exa bat ripgrep htop nethogs -y
 #+end_src
-Below aliases (e.g. ~b~ instead of ~batcat~) were set in the above [[*Copy .bashrc][.bashrc file]].
+Below aliases (e.g. ~b~ instead of ~batcat~) were set in the above [[#copy-bashrc][.bashrc file]].
 ***** fd-find
 Search files by name.
 ****** Example
