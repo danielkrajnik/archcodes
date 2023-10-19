@@ -71,6 +71,7 @@ AllowUsers admin
 sudo systemctl restart sshd
 #+end_src
 ⚠️ Note down the Port number.
+
 ⚠️ Before logging out make sure port number [[#configure-firewall][was allowed in ufw]] or you will be locked out.
 *** Miscellaneous fixes
 **** Disable passwordless sudo
@@ -105,7 +106,7 @@ maxentry = 3
 # In Debian 12 it became necessary to specify systemd backend explicitely.
 backend = systemd
 #+end_src
-⚠ If you failed to connect more than 3 times before setting this up it may block you. [[*Unban your IP][Fix]]
+⚠ If you failed to connect more than 3 times before setting this up it may block you. [[#unban-your-IP][Fix]]
 #+begin_src sh
 sudo systemctl restart fail2ban.service
 #+end_src
@@ -120,7 +121,7 @@ ssh -o ProxyCommand='nc -x 127.0.0.1:9150 %h %p' <USER>@<SERVER-IP>
 # check your IP
 curl ifconfig.me
 #+end_src
-[[*unban IP][Unban]] your original IP: ~fail2ban-client set sshd unbanip <YOUR-ORIGNAL-IP>~
+[[#unban-ip][Unban]] your original IP.
 *** Optional
 **** Copy .bashrc
 Recommended =.bashrc= included in this repo.
