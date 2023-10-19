@@ -106,7 +106,7 @@ maxentry = 3
 # In Debian 12 it became necessary to specify systemd backend explicitely.
 backend = systemd
 #+end_src
-⚠ If you failed to connect more than 3 times before setting this up it may block you. [[*Unban your IP][Fix]]
+⚠ If you failed to connect more than 3 times before setting this up it may block you. Fix
 #+begin_src sh
 sudo systemctl restart fail2ban.service
 #+end_src
